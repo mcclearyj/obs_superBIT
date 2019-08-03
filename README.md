@@ -27,7 +27,7 @@ cd lsst_stack/stack/current/Linux64/
 git clone git@github.com:YOUR-GITHUB-USER-AREA/obs_superbit.git
 ```
 
-Next, you must tell the stack how to find `obs_superbit`. This is done using the eups versioning system (which is installed as part of the stack). At the (bash) command line execute:
+Next, you must tell the stack how to find `obs_superbit`. This is done using the eups versioning system (which is installed as part of the stack). At the (bash) command line (and within `obs_superbit/`) execute:
 ```
 eups declare obs_superbit v1 -r /full/path/to/lsstsw/stack/Linux64/obs_superbit
 eups declare -t current obs_superbit v1
