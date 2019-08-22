@@ -15,20 +15,20 @@ def addAmp(ampCatalog,i,rN,gain_s):
     #including overscan, any dummy pixels etc etc.:
     width = 6665
     height = 4453
+
+    detwidth = 6576
+    detheight = 4384 
     
     os = 20   #pixels of overscan
     
     #This is the dimensions of the active region of your amp:
-    bbox = afwGeom.Box2I(afwGeom.Point2I(0, 0), afwGeom.Extent2I(6576, 4384))
-    
-    #If your CCD consists of more than one amp, you'll need to
-    #some of them (i.e., the one on the right is shifted by X pixels)
-    bbox.shift(afwGeom.Extent2I(3288 if (i==1 or i==3) else 0, 2192 if (i==2 or i==3) else 0))
+    bbox = afwGeom.Box2I(afwGeom.Point2I(0, 0), afwGeom.Extent2I(width, height))
+    bbox.shift(afwGeom.Extent2I(width*i,0))
     
     #Define the gain, saturation and readout noise:
-    gain = gain_s
-    saturation = 20000
-    readNoise = rN
+    gain = gain_s 
+    saturation = 25000
+    readNoise = rN 
     
     #Which corner is the data read out from?
     readoutCorner = afwTable.LL
@@ -39,10 +39,9 @@ def addAmp(ampCatalog,i,rN,gain_s):
     
     rawBBox = afwGeom.Box2I(afwGeom.Point2I(0, 0), afwGeom.Extent2I(width,height))
     rawXYOffset = afwGeom.Extent2I(0, 0)
-    rawDataBBox = afwGeom.Box2I(afwGeom.Point2I(45  , 35), afwGeom.Extent2I(6576,4384))
-    rawHorizontalOverscanBBox = afwGeom.Box2I(afwGeom.Point2I(6634 , 0), afwGeom.Extent2I(os, height))
-    rawVerticalOverscanBBox = afwGeom.Box2I(afwGeom.Point2I(0, 4432), afwGeom.Extent2I(width, os))
-    rawPrescanBBox = afwGeom.Box2I(afwGeom.Point2I(12, 0), afwGeom.Extent2I(os, height))
+    rawDataBBox = afwGeom.Box2I(afwGeom.Point2I(45,35), afwGeom.Extent2I(6620,4418)) #maybe this should be two points?
+    rawVerticalOverscanBBox = afwGeom.Box2I(afwGeom.Point2I(12,1), afwGeom.Extent2I(os, 4451))
+    rawPrescanBBox = afwGeom.Box2I(afwGeom.Point2I(33, 13), afwGeom.Extent2I(12, detheight))
     emptyBox = afwGeom.BoxI()
 
     
@@ -68,7 +67,6 @@ def addAmp(ampCatalog,i,rN,gain_s):
     record.setRawBBox(rawBBox)
     record.setRawXYOffset(rawXYOffset)
     record.setRawDataBBox(rawDataBBox)
-    record.setRawHorizontalOverscanBBox(rawHorizontalOverscanBBox)
     record.setRawVerticalOverscanBBox(rawVerticalOverscanBBox)
     record.setRawPrescanBBox(rawPrescanBBox)
 

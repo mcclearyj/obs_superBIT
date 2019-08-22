@@ -1,6 +1,6 @@
 import os
 
-from lsst.daf.persistence import Policy
+from lsst.daf.persistence import Policy,ButlerLocation
 from lsst.obs.base import CameraMapper
 import lsst.afw.image.utils as afwImageUtils
 import lsst.afw.image as afwImage
@@ -30,10 +30,8 @@ class SuperbitMapper(CameraMapper):
         #files.
         policyFile = Policy.defaultPolicyFile(self.packageName, "SuperbitMapper.yaml", "policy")
         policy = Policy(policyFile)
-
         #Instantiate the parent class (CameraMapper) with the policy file:
         super(SuperbitMapper, self).__init__(policy, os.path.dirname(policyFile), **kwargs)
-
         #Ensure each dataset type of interest knows about the full range
         #of keys available from the registry. This means a minimal set of
         #--id's need to be specified, and the stack will find the rest.

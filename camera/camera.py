@@ -1,16 +1,22 @@
 import lsst.afw.cameraGeom.cameraConfig
 
+#This simply asserts whether the config class is of the
+#right format.
+assert type(config)==lsst.afw.cameraGeom.cameraConfig.CameraConfig, 'config is of type %s.%s instead of lsst.afw.cameraGeom.cameraConfig.CameraConfig' % (type(config).__module__, type(config).__name__)
+
 #Set the plate scale in arcsec/mm:
 #Not strictly necessary.
-#config.plateScale=206.67
+config.plateScale=48.81
 
 #This defines the native coordinate system:
 #FocalPlane is (x,y) in mm (rather than radians or pixels, for example).
 config.transformDict.nativeSys='FocalPlane'
 
-#For some reason, it must have "FieldAngle" transform defined:
+#For some reason, it must have "Pupil" defined:
 config.transformDict.transforms={}
-config.transformDict.transforms['FieldAngle']=lsst.afw.geom.transformConfig.TransformConfig()
+config.transformDict.transforms['FieldAngle'] = \
+    lsst.afw.geom.transformConfig.TransformConfig()
+
 
 # coeffs = [0,1] is the default. This is only necessary if you want to convert
 #between positions on the focal plane.
@@ -29,10 +35,12 @@ config.detectorList[0]=lsst.afw.cameraGeom.cameraConfig.DetectorConfig()
 config.detectorList[0].bbox_y0=0
 
 # y1 of pixel bounding box
-config.detectorList[0].bbox_y1=4383
+# conflicting info in header; may be 4453
+config.detectorList[0].bbox_y1=4454
 
 # x1 of pixel bounding box
-config.detectorList[0].bbox_x1=6575
+# conflicting info in header; may be 6665
+config.detectorList[0].bbox_x1=6666
 
 # x0 of pixel bounding box
 config.detectorList[0].bbox_x0=0
@@ -41,7 +49,6 @@ config.detectorList[0].bbox_x0=0
 config.detectorList[0].name='superbitccd'
 
 # Pixel size in mm
-config.detectorList[0].pixelSize_x=0.005
 config.detectorList[0].pixelSize_x=0.0055
 config.detectorList[0].pixelSize_y=0.0055
 
@@ -49,10 +56,10 @@ config.detectorList[0].pixelSize_y=0.0055
 config.detectorList[0].transformDict.nativeSys='Pixels'
 
 # x position of the reference point in the detector in pixels in transposed coordinates.
-config.detectorList[0].refpos_x=3287.5
+config.detectorList[0].refpos_x=3333
 
 # y position of the reference point in the detector in pixels in transposed coordinates.
-config.detectorList[0].refpos_y=2191
+config.detectorList[0].refpos_y=2277
 
 # Detector type: SCIENCE=0, FOCUS=1, GUIDER=2, WAVEFRONT=3
 config.detectorList[0].detectorType=0
@@ -72,3 +79,8 @@ config.detectorList[0].serial='KAI-29050'
 
 # ID of detector slot
 config.detectorList[0].id=0
+
+# Name of this config
+#This isn't strictly required for CameraMapper
+#but I'm keeping it there as it seems like a good idea:
+config.name='superbit'
